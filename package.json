@@ -2,6 +2,10 @@
   "name": "wedding-lyrics",
   "version": "1.0.0",
   "description": "Wedding lyrics upload and display",
+  "engines" : { 
+    "npm" : "8.11.0",
+    "node" : "16.16.0"
+  },
   "main": "./server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
