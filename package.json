@@ -1,0 +1,22 @@
+{
+  "name": "wedding-lyrics",
+  "version": "1.0.0",
+  "description": "Wedding lyrics upload and display",
+  "main": "./server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saxani/wedding-lyrics.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saxani/wedding-lyrics/issues"
+  },
+  "homepage": "https://github.com/saxani/wedding-lyrics#readme"
+}

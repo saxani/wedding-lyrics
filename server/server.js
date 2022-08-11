@@ -13,7 +13,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.get('/fetch_lyrics', (req, res) => {
     fs.readFile(dataPath, 'utf-8', (err, data) => {
         if(err){
-            console.log(error);
+            console.log(err);
             return;
          }
 
