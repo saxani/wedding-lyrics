@@ -36,8 +36,6 @@ const Submit = () => {
         e.preventDefault();
         const data = { artist: artist, lyrics: lyrics };
 
-        console.log(JSON.stringify(data));
-
         await fetch('/add_lyrics', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
