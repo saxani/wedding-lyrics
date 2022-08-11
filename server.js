@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 const dataPath = './data.json';
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.get('/fetch_lyrics', (req, res) => {
@@ -47,5 +47,5 @@ app.post('/add_lyrics', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'../client/build/index.html'));
+    res.sendFile(path.join(__dirname+'./client/build/index.html'));
 });

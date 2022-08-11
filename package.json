@@ -1,26 +1,24 @@
 {
-  "name": "wedding-lyrics",
+  "name": "server",
   "version": "1.0.0",
-  "description": "Wedding lyrics upload and display",
+  "description": "",
+  "main": "server.js",
   "engines" : { 
     "npm" : "8.11.0",
     "node" : "16.16.0"
   },
-  "main": "./server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server/server.js",
-    "heroku-postbuild": "cd server && npm install && cd.. && cd client && npm install && npm run build"
-    
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/saxani/wedding-lyrics.git"
+    "start": "nodemon server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/saxani/wedding-lyrics/issues"
+  "dependencies": {
+    "express": "^4.18.1"
   },
-  "homepage": "https://github.com/saxani/wedding-lyrics#readme"
+  "devDependencies": {
+    "body-parser": "^1.20.0",
+    "nodemon": "^2.0.19"
+  }
 }
