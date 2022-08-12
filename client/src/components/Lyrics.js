@@ -43,7 +43,7 @@ const Lyrics = ({ data }) => {
             <div className='lyrics'>
                 <Letters lyrics={lyricsLetters} onComplete={onComplete} key={instance} />
             </div>
-            <div className={`song-info ${isVisible ? "show": ""}`}><span>- {data[songNum].artist}</span><span>, {data[songNum].song}</span></div>
+            <div className={`song-info ${isVisible ? "show": ""}`}><span>- {data[songNum].artist}</span><span className='song-title'>, {data[songNum].song}</span></div>
         </div>
     );
 };

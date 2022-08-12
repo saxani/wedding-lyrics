@@ -1,31 +1,28 @@
 import React, { useState } from "react";
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
+import { Button, Modal, Box, Backdrop, Fade, TextField } from '@mui/material';
 
 const Submit = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
     const [artist, setArtist] = useState('');
     const [song, setSong] = useState('');
     const [lyrics, setLyrics] = useState('');
 
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            border: '1px solid #666'
-        },
-    };
-    
-    function openModal() {
-        setIsOpen(true);
-    }
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    function closeModal() {
-        setIsOpen(false);
-    }
+    const customStyles = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        maxWidth: '600px',
+        bgcolor: '#fff',
+        borderRadius: '10px',
+        padding: '30px'
+
+    };
 
     async function submitLyrics(e) {
         e.preventDefault();
@@ -51,31 +48,85 @@ const Submit = () => {
 
     return (
         <div>
-            {!modalIsOpen && <button className='submit-button button' onClick={openModal}>Submit lyrics</button>}
+            {!open && 
+                <div className='submit-button'>
+                    <Button 
+                        className='submit-button' 
+                        onClick={handleOpen} 
+                        variant="contained"
+                        sx={{
+                            color: 'rgb(0, 2, 44)',
+                            backgroundColor: '#fff',
+                            "&:hover": {
+                                backgroundColor: "#acc9e8; !important"
+                              }
+                          }}
+                    >
+                        Submit Lyrics
+                    </Button>
+                </div>
+            }
             <Modal
-            isOpen={modalIsOpen}
-            ariaHideApp={false}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Submit modal"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="Submit song lyrics"
+                aria-describedby="Input artist, song, and lyrics in this modal"
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
             >
-                <button onClick={closeModal}>X</button>
-                <h2>What lyrics remind you of Jor and Meg?</h2>
-                <form>
-                    <div>
-                        Artist: 
-                        <input onChange={(e) => setArtist(e.target.value)} value={artist} />
-                    </div>
-                    <div>
-                        Song: 
-                        <input onChange={(e) => setSong(e.target.value)} value={song} />
-                    </div>
-                    <div>
-                        Lyrics: 
-                        <input onChange={(e) => setLyrics(e.target.value)} value={lyrics} />
-                    </div>
-                    <button className='button' onClick={submitLyrics}>Submit</button>
-                </form>
+                <Fade in={open}>
+                    <Box sx={customStyles}>
+                        <h2>What lyrics remind you of Meg and Jor?</h2>
+                        <div className='input-section'>
+                            <TextField 
+                                id="outlined-basic" 
+                                label="Artist" 
+                                variant="outlined" 
+                                sx={{width: '300px'}}
+                                onChange={(e) => setArtist(e.target.value)}
+                                value={artist}
+                            />
+                        </div>
+
+                        <div className='input-section'>
+                            <TextField 
+                                id="outlined-basic" 
+                                label="Song" 
+                                variant="outlined" 
+                                sx={{width: '300px'}}
+                                onChange={(e) => setSong(e.target.value)}
+                                value={song}    
+                            />
+                        </div>
+                        <div className='input-section'>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Lyrics"
+                                multiline
+                                rows={3}
+                                sx={{width: '300px'}}
+                                onChange={(e) => setLyrics(e.target.value)} 
+                                value={lyrics}
+                            />
+                        </div>
+                        <Button 
+                        onClick={submitLyrics}
+                        variant="contained"
+                        sx={{
+                            color: 'rgb(118, 118, 118)',
+                            backgroundColor: '#fff',
+                            "&:hover": {
+                                backgroundColor: "#acc9e8; !important"
+                              }
+                          }}
+                    >
+                        Submit
+                    </Button>
+                    </Box>
+                </Fade>
             </Modal>
         </div>
     );
