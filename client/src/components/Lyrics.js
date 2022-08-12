@@ -11,16 +11,28 @@ function randomizer(data) {
 const Lyrics = ({ data }) => {
     const [songNum, setSongNum] = useState(randomizer(data));
     const [instance, setInstance] = useState(1);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         setSongNum(randomizer(data));                         
     }, []);
 
+    useEffect(() => {
+        if (!isVisible) {
+            setTimeout(() => {
+                setSongNum(randomizer(data));
+            }, 500);
+        }
+    }, [isVisible]);
+
     const onComplete = () => {
+        setIsVisible(true);
+
         setTimeout(() => {
-            setSongNum(randomizer(data));
+            setIsVisible(false);
             let tempInstance = instance + 1;
             setInstance(tempInstance);
+
         }, 5000);
     };
 
@@ -31,6 +43,7 @@ const Lyrics = ({ data }) => {
             <div className='lyrics'>
                 <Letters lyrics={lyricsLetters} onComplete={onComplete} key={instance} />
             </div>
+            <div className={`song-info ${isVisible ? "show": ""}`}><span>- {data[songNum].artist}</span><span>, {data[songNum].song}</span></div>
         </div>
     );
 };

@@ -15,7 +15,6 @@ const App = () => {
   const callBackendAPI = async () => {
     const response = await fetch('/fetch_lyrics');
     const body = await response.json();
-    console.log(body);
     
     if (response.status !== 200) {
       throw Error(body.message) 

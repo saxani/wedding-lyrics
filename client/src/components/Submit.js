@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 const Submit = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [artist, setArtist] = useState('');
+    const [song, setSong] = useState('');
     const [lyrics, setLyrics] = useState('');
 
     const customStyles = {
@@ -14,16 +15,10 @@ const Submit = () => {
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
+            border: '1px solid #666'
         },
     };
-
-    const buttonStyle = {
-        position: 'absolute',
-        bottom: '50px',
-        left: '50%',
-        transform: 'translateX(-50%)'
-    };
-
+    
     function openModal() {
         setIsOpen(true);
     }
@@ -34,18 +29,15 @@ const Submit = () => {
 
     async function submitLyrics(e) {
         e.preventDefault();
-        const data = { artist: artist, lyrics: lyrics };
+        const data = { artist: artist, song: song, lyrics: lyrics };
 
         await fetch('/add_lyrics', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
-            // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
             headers: {
               'Content-Type': 'application/json'
             },
-            // redirect: 'follow', // manual, *follow, error
-            // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(data), // body data type must match "Content-Type" header
           })
             .then(response => response.json())
@@ -59,7 +51,7 @@ const Submit = () => {
 
     return (
         <div>
-            {!modalIsOpen && <button style={buttonStyle} onClick={openModal}>Open Modal</button>}
+            {!modalIsOpen && <button className='submit-button button' onClick={openModal}>Submit lyrics</button>}
             <Modal
             isOpen={modalIsOpen}
             ariaHideApp={false}
@@ -75,10 +67,14 @@ const Submit = () => {
                         <input onChange={(e) => setArtist(e.target.value)} value={artist} />
                     </div>
                     <div>
+                        Song: 
+                        <input onChange={(e) => setSong(e.target.value)} value={song} />
+                    </div>
+                    <div>
                         Lyrics: 
                         <input onChange={(e) => setLyrics(e.target.value)} value={lyrics} />
                     </div>
-                    <button onClick={submitLyrics}>Submit</button>
+                    <button className='button' onClick={submitLyrics}>Submit</button>
                 </form>
             </Modal>
         </div>
