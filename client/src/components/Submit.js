@@ -34,6 +34,7 @@ const Submit = () => {
         }
 
         const data = { artist: artist, song: song, lyrics: lyrics };
+        handleClose();
 
         await fetch('/add_lyrics', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -47,11 +48,10 @@ const Submit = () => {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                handleClose();
+                
             })
             .catch(err => {
                 console.log(err);
-                handleClose();
 
             });
     }
