@@ -20,7 +20,6 @@ app.get('/fetch_lyrics', (req, res) => {
         const lyrics = JSON.parse(data).data;
         res.send({ lyrics });
     });
-
 });
 
 app.post('/add_lyrics', (req, res) => {
@@ -46,6 +45,43 @@ app.post('/add_lyrics', (req, res) => {
       });
 });
 
+app.post('/delete_lyrics', (req, res) => {
+  console.log('Got body:', req.body);
+
+  fs.readFile(dataPath, (error, data) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      const parsedData = JSON.parse(data).data;
+
+      console.log(parsedData);
+
+      for (let i = 0; i < parsedData.length; i++) {
+        if (parsedData[i].lyrics === req.body.data.lyrics) {
+          console.log('match');
+          parsedData.splice(i, 1);
+          break;
+        }
+      }
+
+      const formattedData = { data: parsedData };
+
+      fs.writeFile(dataPath, JSON.stringify(formattedData), (err) => {
+        if (err) {
+          console.log('Failed to write updated data to file');
+          return;
+        }
+        console.log('Updated file successfully');
+      });
+    });
+});
+
+app.get('/admin', (req, res) =>{
+  res.sendFile(path.join(__dirname+ '/admin.html'));
+});
+
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'./client/build/index.html'));
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });

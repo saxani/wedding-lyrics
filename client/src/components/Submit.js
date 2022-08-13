@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Modal from 'react-modal';
 import { Button, Modal, Box, Backdrop, Fade, TextField } from '@mui/material';
 
 const Submit = () => {
@@ -8,6 +7,8 @@ const Submit = () => {
     const [lyrics, setLyrics] = useState('');
 
     const [open, setOpen] = useState(false);
+    const [error, setError] = useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -26,6 +27,12 @@ const Submit = () => {
 
     async function submitLyrics(e) {
         e.preventDefault();
+
+        if (lyrics == '' || lyrics.length < 3) {
+            setError(true);
+            return;
+        }
+
         const data = { artist: artist, song: song, lyrics: lyrics };
 
         await fetch('/add_lyrics', {
@@ -40,9 +47,12 @@ const Submit = () => {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
+                handleClose();
             })
             .catch(err => {
                 console.log(err);
+                handleClose();
+
             });
     }
 
@@ -112,6 +122,7 @@ const Submit = () => {
                                 value={lyrics}
                             />
                         </div>
+                        {error && <div className='error-text'>Make sure to enter lyrics!</div>}
                         <Button 
                         onClick={submitLyrics}
                         variant="contained"

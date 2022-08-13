@@ -91,3 +91,8 @@ body {
     width: 100%;
     max-width: 300px;
 }
+
+.error-text {
+    color: red;
+    margin-bottom: 10px;
+}

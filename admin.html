@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+    </style>
+</head>
+<body>
+    <h3>Admin for submissions</h3>
+    <table>
+        <tr>
+            <th>Artist</th>
+            <th>Song</th>
+            <th>Lyrics</th>
+            <th>Delete?</th>
+        </tr>
+        <tbody id="rows">
+
+        </tbody>
+    </table>
+
+    <script>
+        const callBackendAPI = async () => {
+            const response = await fetch('/fetch_lyrics');
+            const body = await response.json();
+            
+            if (response.status !== 200) {
+                throw Error(body.message) 
+            }
+
+            return body;
+        };
+
+        const displayLyrics = (lyrics) => {
+            console.log(lyrics);
+            lyrics.map(lyric => {
+                const newRow = document.createElement("tr");
+                
+                const artist = document.createElement("td");
+                artist.innerHTML = lyric.artist;
+                newRow.append(artist);
+
+                const song = document.createElement("td");
+                song.innerHTML = lyric.song;
+                newRow.append(song);
+                
+                const lyrics = document.createElement("td");
+                lyrics.innerHTML = lyric.lyrics;
+                newRow.append(lyrics);
+                
+                const buttonCell = document.createElement("td");
+                let btn = document.createElement("button");
+                btn.innerHTML = "Delete";
+                btn.onclick = () => {
+                    deleteLyrics(lyric);
+                };
+                buttonCell.appendChild(btn);
+                newRow.append(buttonCell);
+
+                document.getElementById("rows").appendChild(newRow);
+
+            });
+        };
+
+        async function deleteLyrics (lyrics) {
+            const data = {data: lyrics};
+
+            await fetch('/delete_lyrics', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+          })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+            })
+            .catch(err => {
+                console.log(err);
+
+            });
+        }
+
+        window.addEventListener('load', () => {
+            callBackendAPI()
+                .then(res => displayLyrics(res.lyrics))
+                .catch(err => console.log(err));
+        });
+
+
+    </script>
+</body>
+</html>
